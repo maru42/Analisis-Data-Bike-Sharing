@@ -33,7 +33,7 @@ else:
     summer_data = filtered_data[(filtered_data['mnth_hour'] == 7) | (filtered_data['mnth_hour'] == 8)]
 
     # Display maximum rentals for summer data
-    max_rentals_summer = summer_data['cnt'].max()
+    max_rentals_summer = summer_data['cnt_hour'].max()
     st.markdown(f"<h3 style='font-size: 24px;'>Max Rentals in Summer: {max_rentals_summer}</h3>", unsafe_allow_html=True)
 
     # Scatter plot for temperature vs. bike rentals
