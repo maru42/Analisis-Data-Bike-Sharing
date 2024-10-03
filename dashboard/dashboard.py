@@ -15,12 +15,14 @@ st.header('1. Data Overview')
 st.write(data.head())
 st.write('Total records:', len(data))
 
-# Plotting the trend of bike rentals over time
-st.header('2. Bike Rentals Trend Over Time')
+# Convert 'dteday' to datetime
 data['dteday'] = pd.to_datetime(data['dteday'])
-data.set_index('dteday', inplace=True)
-data['cnt'].resample('M').sum().plot()
-plt.title('Monthly Bike Rentals')
+
+# Plotting the trend of bike rentals over time (by day)
+st.header('2. Bike Rentals Trend Over Time')
+daily_data = data.groupby('dteday')['cnt_day'].sum()
+daily_data.plot()
+plt.title('Daily Bike Rentals')
 plt.xlabel('Date')
 plt.ylabel('Number of Rentals')
 plt.grid()
@@ -28,7 +30,7 @@ st.pyplot(plt)
 
 # Plotting bike rentals by hour
 st.header('3. Bike Rentals by Hour')
-hourly_data = data.groupby('hr')['cnt'].sum()
+hourly_data = data.groupby('hr')['cnt_hour'].sum()
 hourly_data.plot(kind='bar')
 plt.title('Total Bike Rentals by Hour')
 plt.xlabel('Hour of the Day')
@@ -52,12 +54,12 @@ st.pyplot(fig4)
 
 # Add a section for user input to analyze bike rentals by temperature
 st.header('5. Analyze Bike Rentals by Temperature')
-temp_filter = st.slider('Select Temperature Range:', float(data['temp'].min()), float(data['temp'].max()), (0.0, 1.0))
-filtered_data = data[(data['temp'] >= temp_filter[0]) & (data['temp'] <= temp_filter[1])]
+temp_filter = st.slider('Select Temperature Range:', float(data['temp_day'].min()), float(data['temp_day'].max()), (0.0, 1.0))
+filtered_data = data[(data['temp_day'] >= temp_filter[0]) & (data['temp_day'] <= temp_filter[1])]
 
 # Plot bike rentals in the selected temperature range
 st.subheader('Filtered Bike Rentals by Temperature')
-filtered_data.groupby('temp')['cnt'].sum().plot()
+filtered_data.groupby('temp_day')['cnt_day'].sum().plot()
 plt.title('Total Bike Rentals by Temperature')
 plt.xlabel('Temperature')
 plt.ylabel('Number of Rentals')
