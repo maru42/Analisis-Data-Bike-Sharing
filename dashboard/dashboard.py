@@ -30,7 +30,7 @@ if filtered_data.empty:
 else:
     # Business Question 1: Impact of Temperature and Humidity on Bike Rentals (Summer)
     st.header("🌞 Impact of Temperature and Humidity on Bike Rentals During Summer")
-    summer_data = filtered_data[(filtered_data['mnth'] == 7) | (filtered_data['mnth'] == 8)]
+    summer_data = filtered_data[(filtered_data['mnth_hour'] == 7) | (filtered_data['mnth_hour'] == 8)]
 
     # Display maximum rentals for summer data
     max_rentals_summer = summer_data['cnt'].max()
