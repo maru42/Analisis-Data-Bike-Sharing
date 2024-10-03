@@ -36,7 +36,6 @@ else:
     max_rentals_summer = summer_data['cnt_hour'].max()
     st.markdown(f"<h3 style='font-size: 24px;'>Max Rentals in Summer: {max_rentals_summer}</h3>", unsafe_allow_html=True)
 
-    st.write(summer_data.columns)
     # Scatter plot for temperature vs. bike rentals
     fig, ax = plt.subplots()
     sns.scatterplot(data=summer_data, x='temp_hour', y='cnt_hour', ax=ax, color='orange', s=100, edgecolor='black')
