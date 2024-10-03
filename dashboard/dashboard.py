@@ -38,7 +38,7 @@ else:
 
     # Scatter plot for temperature vs. bike rentals
     fig, ax = plt.subplots()
-    sns.scatterplot(data=summer_data, x='temp', y='cnt', ax=ax, color='orange', s=100, edgecolor='black')
+    sns.scatterplot(data=summer_data, x='temp_hour', y='cnt_hour', ax=ax, color='orange', s=100, edgecolor='black')
     ax.set_title("Temperature vs Bike Rentals (Summer)", fontsize=14)
     ax.set_xlabel("Temperature (Normalized)", fontsize=12)
     ax.set_ylabel("Number of Bike Rentals", fontsize=12)
