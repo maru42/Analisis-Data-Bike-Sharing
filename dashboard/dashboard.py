@@ -76,12 +76,12 @@ st.pyplot(fig3)
 # Factors influencing bike rentals
 st.header('4. Factors Influencing Bike Rentals')
 
+# Select only numeric columns for correlation
+numeric_data = data.select_dtypes(include=['float64', 'int64'])
+
 # Create correlation heatmap
-correlation = data.corr()
+correlation = numeric_data.corr()
 fig4, ax4 = plt.subplots()
 sns.heatmap(correlation, annot=True, cmap='coolwarm', ax=ax4)
 ax4.set_title('Correlation Heatmap of Factors Influencing Bike Rentals')
 st.pyplot(fig4)
-
-# Footer
-st.write('### Dashboard created for bike rental analysis using Streamlit.')
