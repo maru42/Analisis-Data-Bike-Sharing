@@ -3,71 +3,52 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Set the title of the dashboard
-st.title("Bike Rentals Data Analysis Dashboard")
+# Set the page title
+st.title("Bike Rental Data Analysis Dashboard")
 
-# Load the dataset
-data_path = "dashboard/main_data.csv"
-data = pd.read_csv(data_path)
+# Load the data
+data_file = 'dashboard/main_data.csv'
+data = pd.read_csv(data_file)
 
-# Display the first few rows of the dataset
-st.subheader("Dataset Overview")
+# Display the first few rows of the dataframe
+st.subheader("Data Overview")
 st.write(data.head())
 
 # Data Preprocessing
-# Convert date columns to datetime
 data['dteday'] = pd.to_datetime(data['dteday'])
-data['instant_hour'] = data['instant_hour'].astype(int)
+data['hour'] = pd.to_datetime(data['hr'], format='%H').dt.hour
 
-# Display statistics
-st.subheader("Data Statistics")
-st.write(data.describe())
+# Sidebar for user inputs
+st.sidebar.header("User Inputs")
 
-# Business Question 1: Impact of temperature and humidity on bike rentals during summer
-st.subheader("Impact of Temperature and Humidity on Bike Rentals in Summer")
+# Select the month
+month = st.sidebar.selectbox('Select Month:', data['mnth_hour'].unique())
 
-# Filter data for summer months (July and August)
-summer_data = data[data['mnth_hour'].isin([7, 8])]
+# Filter data based on the selected month
+filtered_data = data[data['mnth_hour'] == month]
 
-# Create scatter plot
-plt.figure(figsize=(10, 6))
-sns.scatterplot(data=summer_data, x='temp_hour', y='cnt_hour', hue='hum_hour', palette='viridis', alpha=0.6)
-plt.title("Bike Rentals vs Temperature and Humidity (July and August)")
-plt.xlabel("Temperature")
-plt.ylabel("Number of Rentals")
-plt.colorbar(label='Humidity')
-st.pyplot(plt)
+# Business Question 1: Impact of temperature and humidity on bike rentals during the summer
+st.subheader("Impact of Temperature and Humidity on Bike Rentals")
+fig, ax = plt.subplots(figsize=(10, 5))
+sns.scatterplot(data=filtered_data, x='temp_hour', y='cnt_hour', hue='hum_hour', palette='viridis', ax=ax)
+ax.set_title('Temperature vs. Bike Rentals')
+ax.set_xlabel('Temperature (°C)')
+ax.set_ylabel('Number of Rentals')
+st.pyplot(fig)
 
 # Business Question 2: Monthly bike rental trend
 st.subheader("Monthly Bike Rental Trend")
+monthly_rentals = data.groupby('mnth_hour')['cnt_hour'].sum().reset_index()
+fig2, ax2 = plt.subplots(figsize=(10, 5))
+sns.lineplot(data=monthly_rentals, x='mnth_hour', y='cnt_hour', marker='o', ax=ax2)
+ax2.set_title('Monthly Bike Rental Trend')
+ax2.set_xlabel('Month')
+ax2.set_ylabel('Total Rentals')
+st.pyplot(fig2)
 
-# Group data by month and sum the counts
-monthly_trend = data.groupby('mnth_day')['cnt_day'].sum().reset_index()
+# Display statistics
+st.subheader("Statistics")
+st.write(filtered_data.describe())
 
-# Create line plot
-plt.figure(figsize=(10, 6))
-sns.lineplot(data=monthly_trend, x='mnth_day', y='cnt_day', marker='o')
-plt.title("Monthly Bike Rental Trend (January to December)")
-plt.xlabel("Month")
-plt.ylabel("Total Rentals")
-plt.xticks(ticks=monthly_trend['mnth_day'], labels=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], rotation=45)
-st.pyplot(plt)
-
-# Show additional insights or visualizations as needed
-# For example: Rental trends by weekday
-st.subheader("Bike Rentals by Weekday")
-
-# Group data by weekday
-weekday_trend = data.groupby('weekday_day')['cnt_day'].sum().reset_index()
-
-# Create bar plot
-plt.figure(figsize=(10, 6))
-sns.barplot(data=weekday_trend, x='weekday_day', y='cnt_day', palette='coolwarm')
-plt.title("Total Bike Rentals by Weekday")
-plt.xlabel("Weekday")
-plt.ylabel("Total Rentals")
-st.pyplot(plt)
-
-# Show the dashboard
-if __name__ == "__main__":
-    st.run()
+# Show a message at the end
+st.sidebar.text("Analyze your bike rental data effectively!")
