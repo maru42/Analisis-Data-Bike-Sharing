@@ -29,7 +29,7 @@ summer_data = data[(data['season_day'] == 'summer')]
 
 # Create a scatter plot for temperature vs. bike rentals
 fig1, ax1 = plt.subplots()
-sns.scatterplot(data=summer_data, x='temperature', y='rental_count', hue='humidity', ax=ax1)
+sns.scatterplot(data=summer_data, x='temp_day', y='cnt_day', hue='hum_day', ax=ax1)
 ax1.set_title('Temperature vs. Bike Rentals (Summer)')
 ax1.set_xlabel('Temperature (°C)')
 ax1.set_ylabel('Bike Rentals')
@@ -39,18 +39,18 @@ st.pyplot(fig1)
 st.header('2. Bike Rentals Comparison Between Weekends and Weekdays')
 
 # Create a column for days
-data['day_of_week'] = pd.to_datetime(data['date']).dt.day_name()
+data['day_of_week'] = pd.to_datetime(data['dteday']).dt.day_name()
 weekend_data = data[data['day_of_week'].isin(['Saturday', 'Sunday'])]
 weekday_data = data[data['day_of_week'].isin(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'])]
 
 # Group by day type
-weekend_rentals = weekend_data.groupby('day_of_week')['rental_count'].sum().reset_index()
-weekday_rentals = weekday_data.groupby('day_of_week')['rental_count'].sum().reset_index()
+weekend_rentals = weekend_data.groupby('day_of_week')['cnt_day'].sum().reset_index()
+weekday_rentals = weekday_data.groupby('day_of_week')['cnt_day'].sum().reset_index()
 
 # Plot comparison
 fig2, ax2 = plt.subplots()
-sns.barplot(data=weekend_rentals, x='day_of_week', y='rental_count', ax=ax2, color='blue', label='Weekend')
-sns.barplot(data=weekday_rentals, x='day_of_week', y='rental_count', ax=ax2, color='orange', label='Weekday')
+sns.barplot(data=weekend_rentals, x='day_of_week', y='cnt_day', ax=ax2, color='blue', label='Weekend')
+sns.barplot(data=weekday_rentals, x='day_of_week', y='cnt_day', ax=ax2, color='orange', label='Weekday')
 ax2.set_title('Bike Rentals: Weekend vs. Weekday')
 ax2.set_xlabel('Day of Week')
 ax2.set_ylabel('Total Bike Rentals')
@@ -61,8 +61,8 @@ st.pyplot(fig2)
 st.header('3. Monthly Bike Rental Trend')
 
 # Extract month from date
-data['month'] = pd.to_datetime(data['date']).dt.month_name()
-monthly_rentals = data.groupby('month')['rental_count'].sum().reindex(['January', 'February', 'March', 'April', 'May', 'June',
+data['month'] = pd.to_datetime(data['dteday']).dt.month_name()
+monthly_rentals = data.groupby('month')['cnt_day'].sum().reindex(['January', 'February', 'March', 'April', 'May', 'June',
                                                                      'July', 'August', 'September', 'October', 'November', 'December'])
 
 # Plot the trend
