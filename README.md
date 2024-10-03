@@ -11,7 +11,7 @@ Berikut adalah struktur direktori nya
 ```
 submission
 ├───dashboard
-| ├───data.csv
+| ├───main_data.csv
 | └───dashboard.py
 ├───data
 | ├───day.csv
