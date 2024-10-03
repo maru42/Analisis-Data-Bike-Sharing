@@ -22,7 +22,7 @@ season_filter = st.sidebar.multiselect('Select Season Day', main_data['season_da
 month_filter = st.sidebar.multiselect('Select Month Hour', main_data['mnth_hour'].unique(), main_data['mnth_hour'].unique())
 
 # Filter the data based on user selection
-filtered_data = main_data[(main_data['season_hour'].isin(season_filter)) & (main_data['mnth_hour'].isin(month_filter))]
+filtered_data = main_data[(main_data['season_day'].isin(season_filter)) & (main_data['mnth_hour'].isin(month_filter))]
 
 # Check if there is data available after filtering
 if filtered_data.empty:
@@ -46,7 +46,7 @@ else:
 
     # Business Question 2: Monthly Bike Rental Trend (January to December)
     st.header("📈 Monthly Bike Rental Trend (January to December)")
-    monthly_rentals = filtered_data.groupby('mnth')['cnt'].mean()
+    monthly_rentals = filtered_data.groupby('mnth_hour')['cnt_hour'].mean()  # Perbaikan di sini
 
     # Display average rentals for current month filter
     avg_rentals_current_month = monthly_rentals.mean()
@@ -64,25 +64,24 @@ else:
     st.header("☀️ Bike Rentals by Weather and Working Days")
 
     # Display total rentals for weekdays and weekends
-    total_weekend_rentals = filtered_data[filtered_data['workingday'] == 0]['cnt'].sum()
-    total_weekday_rentals = filtered_data[filtered_data['workingday'] == 1]['cnt'].sum()
+    total_weekend_rentals = filtered_data[filtered_data['workingday_hour'] == 0]['cnt_hour'].sum()  # Perbaikan di sini
+    total_weekday_rentals = filtered_data[filtered_data['workingday_hour'] == 1]['cnt_hour'].sum()  # Perbaikan di sini
     st.markdown(f"<h3 style='font-size: 24px;'>Total Rentals on Weekends: {total_weekend_rentals}</h3>", unsafe_allow_html=True)
     st.markdown(f"<h3 style='font-size: 24px;'>Total Rentals on Working Days: {total_weekday_rentals}</h3>", unsafe_allow_html=True)
 
     # Bar plot for bike rentals on weekdays vs weekends
     fig3, ax3 = plt.subplots()
-    sns.barplot(x='workingday', y='cnt', data=filtered_data, ax=ax3, palette="pastel")
+    sns.barplot(x=['Weekend', 'Working Day'], y=[total_weekend_rentals, total_weekday_rentals], ax=ax3, palette="pastel")
     ax3.set_title("Bike Rentals on Working Days vs Weekends", fontsize=14)
-    ax3.set_xticklabels(['Weekend', 'Working Day'], fontsize=12)
     ax3.set_xlabel("Day Type", fontsize=12)
     ax3.set_ylabel("Number of Rentals", fontsize=12)
     st.pyplot(fig3)
 
     # Heatmap for average rentals based on temperature and humidity
     st.header("🌧️ Average Bike Rentals by Temperature and Humidity")
-    filtered_data['temp_group'] = pd.cut(filtered_data['temp'], bins=3, labels=['Low', 'Medium', 'High'])
-    filtered_data['hum_group'] = pd.cut(filtered_data['hum'], bins=3, labels=['Low', 'Medium', 'High'])
-    avg_rental_by_temp_hum = filtered_data.groupby(['temp_group', 'hum_group'], observed=True)['cnt'].mean().unstack()
+    filtered_data['temp_group'] = pd.cut(filtered_data['temp_hour'], bins=3, labels=['Low', 'Medium', 'High'])  # Perbaikan di sini
+    filtered_data['hum_group'] = pd.cut(filtered_data['hum_hour'], bins=3, labels=['Low', 'Medium', 'High'])  # Perbaikan di sini
+    avg_rental_by_temp_hum = filtered_data.groupby(['temp_group', 'hum_group'], observed=True)['cnt_hour'].mean().unstack()  # Perbaikan di sini
 
     # Display maximum average rentals by temperature and humidity groups
     avg_rentals_temp_hum = avg_rental_by_temp_hum.stack().max()
