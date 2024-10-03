@@ -3,69 +3,71 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Load data
-data_path = 'dashboard/main_data.csv'
+# Set the title of the dashboard
+st.title("Bike Rentals Data Analysis Dashboard")
+
+# Load the dataset
+data_path = "dashboard/main_data.csv"
 data = pd.read_csv(data_path)
 
-# Display the title
-st.title('Bike Sharing Data Analysis Dashboard')
-
-# Show data overview
-st.header('1. Data Overview')
+# Display the first few rows of the dataset
+st.subheader("Dataset Overview")
 st.write(data.head())
-st.write('Total records:', len(data))
 
-# Convert 'dteday' to datetime
+# Data Preprocessing
+# Convert date columns to datetime
 data['dteday'] = pd.to_datetime(data['dteday'])
+data['instant_hour'] = data['instant_hour'].astype(int)
 
-# Plotting the trend of bike rentals over time (by day)
-st.header('2. Bike Rentals Trend Over Time')
-daily_data = data.groupby('dteday')['cnt_day'].sum()
-daily_data.plot()
-plt.title('Daily Bike Rentals')
-plt.xlabel('Date')
-plt.ylabel('Number of Rentals')
-plt.grid()
+# Display statistics
+st.subheader("Data Statistics")
+st.write(data.describe())
+
+# Business Question 1: Impact of temperature and humidity on bike rentals during summer
+st.subheader("Impact of Temperature and Humidity on Bike Rentals in Summer")
+
+# Filter data for summer months (July and August)
+summer_data = data[data['mnth_hour'].isin([7, 8])]
+
+# Create scatter plot
+plt.figure(figsize=(10, 6))
+sns.scatterplot(data=summer_data, x='temp_hour', y='cnt_hour', hue='hum_hour', palette='viridis', alpha=0.6)
+plt.title("Bike Rentals vs Temperature and Humidity (July and August)")
+plt.xlabel("Temperature")
+plt.ylabel("Number of Rentals")
+plt.colorbar(label='Humidity')
 st.pyplot(plt)
 
-# Plotting bike rentals by hour
-st.header('3. Bike Rentals by Hour')
-hourly_data = data.groupby('hr')['cnt_hour'].sum()
-hourly_data.plot(kind='bar')
-plt.title('Total Bike Rentals by Hour')
-plt.xlabel('Hour of the Day')
-plt.ylabel('Number of Rentals')
-plt.xticks(rotation=0)
-plt.grid()
+# Business Question 2: Monthly bike rental trend
+st.subheader("Monthly Bike Rental Trend")
+
+# Group data by month and sum the counts
+monthly_trend = data.groupby('mnth_day')['cnt_day'].sum().reset_index()
+
+# Create line plot
+plt.figure(figsize=(10, 6))
+sns.lineplot(data=monthly_trend, x='mnth_day', y='cnt_day', marker='o')
+plt.title("Monthly Bike Rental Trend (January to December)")
+plt.xlabel("Month")
+plt.ylabel("Total Rentals")
+plt.xticks(ticks=monthly_trend['mnth_day'], labels=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], rotation=45)
 st.pyplot(plt)
 
-# Factors influencing bike rentals
-st.header('4. Factors Influencing Bike Rentals')
+# Show additional insights or visualizations as needed
+# For example: Rental trends by weekday
+st.subheader("Bike Rentals by Weekday")
 
-# Select only numeric columns for correlation
-numeric_data = data.select_dtypes(include=['float64', 'int64'])
+# Group data by weekday
+weekday_trend = data.groupby('weekday_day')['cnt_day'].sum().reset_index()
 
-# Create correlation heatmap
-correlation = numeric_data.corr()
-fig4, ax4 = plt.subplots()
-sns.heatmap(correlation, annot=True, cmap='coolwarm', ax=ax4)
-ax4.set_title('Correlation Heatmap of Factors Influencing Bike Rentals')
-st.pyplot(fig4)
-
-# Add a section for user input to analyze bike rentals by temperature
-st.header('5. Analyze Bike Rentals by Temperature')
-temp_filter = st.slider('Select Temperature Range:', float(data['temp_day'].min()), float(data['temp_day'].max()), (0.0, 1.0))
-filtered_data = data[(data['temp_day'] >= temp_filter[0]) & (data['temp_day'] <= temp_filter[1])]
-
-# Plot bike rentals in the selected temperature range
-st.subheader('Filtered Bike Rentals by Temperature')
-filtered_data.groupby('temp_day')['cnt_day'].sum().plot()
-plt.title('Total Bike Rentals by Temperature')
-plt.xlabel('Temperature')
-plt.ylabel('Number of Rentals')
-plt.grid()
+# Create bar plot
+plt.figure(figsize=(10, 6))
+sns.barplot(data=weekday_trend, x='weekday_day', y='cnt_day', palette='coolwarm')
+plt.title("Total Bike Rentals by Weekday")
+plt.xlabel("Weekday")
+plt.ylabel("Total Rentals")
 st.pyplot(plt)
 
-# Conclusion
-st.header('6. Conclusion')
-st.write("This dashboard provides insights into bike rental patterns and how different factors influence rentals.")
+# Show the dashboard
+if __name__ == "__main__":
+    st.run()
