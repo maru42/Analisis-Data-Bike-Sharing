@@ -33,13 +33,18 @@ if os.path.exists(data_file) and os.path.getsize(data_file) > 0:
         filtered_data = data[data['mnth_hour'] == month]
 
         # Business Question 1: Impact of temperature and humidity on bike rentals during the summer
-        st.subheader("Impact of Temperature and Humidity on Bike Rentals")
-        fig, ax = plt.subplots(figsize=(10, 5))
-        sns.scatterplot(data=filtered_data, x='temp_hour', y='cnt_hour', hue='hum_hour', palette='viridis', ax=ax)
-        ax.set_title('Temperature vs. Bike Rentals')
-        ax.set_xlabel('Temperature (°C)')
-        ax.set_ylabel('Number of Rentals')
-        st.pyplot(fig)
+        st.subheader("Impact of Temperature and Humidity on Bike Rentals During Summer")
+        
+        # Filter for summer months (June, July, August)
+        summer_data = data[data['mnth_hour'].isin([6, 7, 8])]
+
+        # Create a scatter plot for summer data
+        fig1, ax1 = plt.subplots(figsize=(10, 5))
+        sns.scatterplot(data=summer_data, x='temp_hour', y='cnt_hour', hue='hum_hour', palette='viridis', ax=ax1, alpha=0.6)
+        ax1.set_title('Summer: Temperature vs. Bike Rentals')
+        ax1.set_xlabel('Temperature (°C)')
+        ax1.set_ylabel('Number of Rentals')
+        st.pyplot(fig1)
 
         # Business Question 2: Monthly bike rental trend
         st.subheader("Monthly Bike Rental Trend")
