@@ -18,7 +18,7 @@ main_data = load_data('dashboard/main_data.csv')
 st.sidebar.header('🔍 Filter Options')
 
 # Allow users to filter data by season or month
-season_filter = st.sidebar.multiselect('Select Season', main_data['season'].unique(), main_data['season'].unique())
+season_filter = st.sidebar.multiselect('Select Season Day', main_data['season_day'].unique(), main_data['season_day'].unique())
 month_filter = st.sidebar.multiselect('Select Month', main_data['mnth'].unique(), main_data['mnth'].unique())
 
 # Filter the data based on user selection
