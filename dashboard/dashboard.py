@@ -19,10 +19,10 @@ st.sidebar.header('🔍 Filter Options')
 
 # Allow users to filter data by season or month
 season_filter = st.sidebar.multiselect('Select Season Day', main_data['season_day'].unique(), main_data['season_day'].unique())
-month_filter = st.sidebar.multiselect('Select Month', main_data['mnth'].unique(), main_data['mnth'].unique())
+month_filter = st.sidebar.multiselect('Select Month Hour', main_data['mnth_hour'].unique(), main_data['mnth_hour'].unique())
 
 # Filter the data based on user selection
-filtered_data = main_data[(main_data['season'].isin(season_filter)) & (main_data['mnth'].isin(month_filter))]
+filtered_data = main_data[(main_data['season_hour'].isin(season_filter)) & (main_data['mnth_hour'].isin(month_filter))]
 
 # Check if there is data available after filtering
 if filtered_data.empty:
