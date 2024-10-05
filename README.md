@@ -43,7 +43,7 @@ Pastikan untuk menginstal semua library yang diperlukan. Jalankan kode berikut d
 Setelah semua library terinstal, jalankan aplikasi Streamlit dengan perintah berikut:
 
 ```
-!streamlit run dashboard.py & npx localtunnel --port 8501
+!streamlit run dashboard/dashboard.py & npx localtunnel --port 8501
 ```
 
 ### 3. Link Dashboard
