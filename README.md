@@ -27,6 +27,7 @@ submission
 Dataset yang digunakan dalam proyek ini adalah:
 - `day.csv`: Dataset ini berisi informasi harian mengenai penyewaan sepeda, termasuk suhu, kelembapan, dan jumlah penyewaan.
 - `hour.csv`: Dataset ini berisi informasi penyewaan sepeda per jam.
+- `main_data.csv`: Dataset ini adalah kombinasi dari `day.csv` dan `hour.csv`, yang menyimpan informasi yang lebih terintegrasi untuk analisis dan visualisasi dalam dashboard.
 
 ## Instalasi
 
@@ -45,4 +46,5 @@ Setelah semua library terinstal, jalankan aplikasi Streamlit dengan perintah ber
 !streamlit run dashboard.py & npx localtunnel --port 8501
 ```
 
-Setelah blok kode diatas dijalankan, copy Exterbak URL lalu klik link "your url is"
+### 3. Link Dashboard
+Dashboard juga dapat di akses melalui [url.txt](https://github.com/maru42/Analisis-Data-Bike-Sharing/blob/main/url.txt)
