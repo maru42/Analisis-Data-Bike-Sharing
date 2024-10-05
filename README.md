@@ -48,3 +48,12 @@ Setelah semua library terinstal, jalankan aplikasi Streamlit dengan perintah ber
 
 ### 3. Link Dashboard
 Dashboard juga dapat di akses melalui [url.txt](https://github.com/maru42/Analisis-Data-Bike-Sharing/blob/main/url.txt)
+
+## Fitur Dashboard
+
+- Filter Berdasarkan Musim dan Bulan: Pengguna dapat memfilter data berdasarkan musim (season_day) dan bulan (mnth_hour).
+- Analisis Suhu dan Kelembapan di Musim Panas: Analisis scatter plot mengenai dampak suhu terhadap penyewaan sepeda di musim panas.
+- Tren Penyewaan Sepeda Bulanan: Analisis tren rata-rata penyewaan sepeda dari Januari hingga Desember.
+- Penyewaan Berdasarkan Hari Kerja dan Cuaca: Analisis bar plot mengenai penyewaan di hari kerja dan akhir pekan.
+- Heatmap Penyewaan Berdasarkan Suhu dan Kelembapan: Visualisasi heatmap rata-rata penyewaan sepeda berdasarkan kategori suhu dan kelembapan.
+-Clustering: Penerapan teknik clustering untuk mengelompokkan data berdasarkan fitur tertentu.
