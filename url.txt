@@ -1,3 +1,1 @@
-URL Eksternal Aplikasi Streamlit:
-
-http://35.243.152.18:8501
+https://bqcappzhapw46asma5apbwg.streamlit.app/
