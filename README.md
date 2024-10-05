@@ -51,7 +51,7 @@ Dashboard juga dapat di akses melalui [url.txt](https://github.com/maru42/Analis
 
 ## Fitur Dashboard
 
-- Filter Berdasarkan Musim dan Bulan: Pengguna dapat memfilter data berdasarkan musim (season_day) dan bulan (mnth_hour).
+- Filter Berdasarkan Musim dan Bulan: Pengguna dapat memfilter data berdasarkan musim dan bulan.
 - Analisis Suhu dan Kelembapan di Musim Panas: Analisis scatter plot mengenai dampak suhu terhadap penyewaan sepeda di musim panas.
 - Tren Penyewaan Sepeda Bulanan: Analisis tren rata-rata penyewaan sepeda dari Januari hingga Desember.
 - Penyewaan Berdasarkan Hari Kerja dan Cuaca: Analisis bar plot mengenai penyewaan di hari kerja dan akhir pekan.
