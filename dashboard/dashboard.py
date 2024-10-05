@@ -14,7 +14,7 @@ def load_data(file):
     return pd.read_csv(file)
 
 # Memuat dataset gabungan
-main_data = load_data('main_data.csv')
+main_data = load_data('dashboard/main_data.csv')
 
 # Sidebar untuk filter
 st.sidebar.header('🔍 Filter Options')
