@@ -2,9 +2,11 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
 
 # Judul dashboard
-st.title("✨ Bike Sharing Dashboard")
+st.title("✨ Bike Sharing Dashboard with Clustering")
 
 # Memuat data dengan cache untuk efisiensi
 @st.cache_data
@@ -99,3 +101,34 @@ else:
     ax4.set_xlabel('Humidity Group', fontsize=12)
     ax4.set_ylabel('Temperature Group', fontsize=12)
     st.pyplot(fig4)
+
+    # --- Clustering dengan K-Means ---
+    st.header("📊 Clustering: Grouping Bike Rentals by Temperature and Humidity")
+
+    # Memilih fitur yang akan digunakan untuk clustering
+    cluster_data = filtered_data[['temp_hour', 'hum_hour', 'cnt_hour']].dropna()
+
+    # Normalisasi data sebelum clustering
+    scaler = StandardScaler()
+    scaled_cluster_data = scaler.fit_transform(cluster_data)
+
+    # Menentukan jumlah cluster (misal 3 cluster)
+    kmeans = KMeans(n_clusters=3, random_state=42)
+    cluster_labels = kmeans.fit_predict(scaled_cluster_data)
+
+    # Menambahkan label cluster ke dalam data
+    filtered_data['Cluster'] = cluster_labels
+
+    # Visualisasi clustering
+    fig5, ax5 = plt.subplots()
+    sns.scatterplot(data=filtered_data, x='temp_hour', y='hum_hour', hue='Cluster', palette='Set1', s=100, edgecolor='black', ax=ax5)
+    ax5.set_title("Clusters of Bike Rentals Based on Temperature and Humidity", fontsize=14)
+    ax5.set_xlabel("Temperature (Normalized)", fontsize=12)
+    ax5.set_ylabel("Humidity (Normalized)", fontsize=12)
+    st.pyplot(fig5)
+
+    # Informasi tambahan tentang cluster
+    st.markdown("### Cluster Centers")
+    cluster_centers = scaler.inverse_transform(kmeans.cluster_centers_)
+    cluster_centers_df = pd.DataFrame(cluster_centers, columns=['Temperature', 'Humidity', 'Rentals'])
+    st.dataframe(cluster_centers_df)
