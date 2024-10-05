@@ -102,7 +102,7 @@ else:
     ax4.set_ylabel('Temperature Group', fontsize=12)
     st.pyplot(fig4)
 
-    # --- Clustering dengan K-Means ---
+    # Clustering dengan K-Means
     st.header("📊 Clustering: Grouping Bike Rentals by Temperature and Humidity")
 
     # Memilih fitur yang akan digunakan untuk clustering
