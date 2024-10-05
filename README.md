@@ -56,4 +56,4 @@ Dashboard juga dapat di akses melalui [url.txt](https://github.com/maru42/Analis
 - Tren Penyewaan Sepeda Bulanan: Analisis tren rata-rata penyewaan sepeda dari Januari hingga Desember.
 - Penyewaan Berdasarkan Hari Kerja dan Cuaca: Analisis bar plot mengenai penyewaan di hari kerja dan akhir pekan.
 - Heatmap Penyewaan Berdasarkan Suhu dan Kelembapan: Visualisasi heatmap rata-rata penyewaan sepeda berdasarkan kategori suhu dan kelembapan.
--Clustering: Penerapan teknik clustering untuk mengelompokkan data berdasarkan fitur tertentu.
+- Clustering: Penerapan teknik clustering untuk mengelompokkan data berdasarkan fitur tertentu.
